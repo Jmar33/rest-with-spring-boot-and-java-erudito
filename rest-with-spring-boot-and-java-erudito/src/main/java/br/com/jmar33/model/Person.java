@@ -1,16 +1,32 @@
 package br.com.jmar33.model;
 
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.util.Objects;
 
+
+@Entity //Mapping the class as a hibernate entity
+@Table(name="person") //when the entity and the table has the same name we can hide the name parameter
 public class Person implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "first_name", nullable = false, length = 80)
     private String firstName;
+
+    @Column(name = "last_name", nullable = false, length = 80)
     private String lastName;
+
+    @Column(nullable = false, length = 100) //When the column has the same name than the object property the parameter
+    //name isn't necessary
     private String address;
+
+    @Column(nullable = false, length = 6)
     private String gender;
 
     public Person() { }

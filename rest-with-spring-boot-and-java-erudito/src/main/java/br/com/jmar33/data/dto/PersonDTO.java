@@ -1,4 +1,4 @@
-package br.com.jmar33.data.dto.v1;
+package br.com.jmar33.data.dto;
 
 import java.io.Serializable;
 import java.util.Objects;

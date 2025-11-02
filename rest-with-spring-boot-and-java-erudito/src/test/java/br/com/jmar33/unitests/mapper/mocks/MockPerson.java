@@ -1,6 +1,6 @@
 package br.com.jmar33.unitests.mapper.mocks;
 
-import br.com.jmar33.data.dto.v1.PersonDTO;
+import br.com.jmar33.data.dto.PersonDTO;
 import br.com.jmar33.model.Person;
 
 import java.util.ArrayList;

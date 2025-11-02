@@ -1,10 +1,7 @@
 package br.com.jmar33.data.dto;
 
 import br.com.jmar33.serializer.GenderSerializer;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.io.Serializable;
@@ -13,6 +10,7 @@ import java.util.Objects;
 
 
 //@JsonPropertyOrder({"id", "address", "first_name", "last_name", "gender"})
+@JsonFilter("PersonFilter") //adding a filter to ignore a field
 public class PersonDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -23,13 +21,19 @@ public class PersonDTO implements Serializable {
     private String firstName;
 
     //@JsonProperty("last_name")
+    @JsonInclude(JsonInclude.Include.NON_NULL) // Serves a validator that can ignore fields
     private String lastName;
+
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private String phoneNumber;
 
     private String address;
 
     //@JsonIgnore()
     @JsonSerialize(using = GenderSerializer.class)
     private String gender;
+
+    private String sensitiveData;
 
     @JsonFormat(pattern="dd/MM/yyyy")
     private Date birthDay;
@@ -84,15 +88,31 @@ public class PersonDTO implements Serializable {
         this.birthDay = birthDay;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getSensitiveData() {
+        return sensitiveData;
+    }
+
+    public void setSensitiveData(String sensitiveData) {
+        this.sensitiveData = sensitiveData;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         PersonDTO personDTO = (PersonDTO) o;
-        return Objects.equals(getId(), personDTO.getId()) && Objects.equals(getFirstName(), personDTO.getFirstName()) && Objects.equals(getLastName(), personDTO.getLastName()) && Objects.equals(getAddress(), personDTO.getAddress()) && Objects.equals(getGender(), personDTO.getGender()) && Objects.equals(getBirthDay(), personDTO.getBirthDay());
+        return Objects.equals(getId(), personDTO.getId()) && Objects.equals(getFirstName(), personDTO.getFirstName()) && Objects.equals(getLastName(), personDTO.getLastName()) && Objects.equals(getPhoneNumber(), personDTO.getPhoneNumber()) && Objects.equals(getAddress(), personDTO.getAddress()) && Objects.equals(getGender(), personDTO.getGender()) && Objects.equals(getSensitiveData(), personDTO.getSensitiveData()) && Objects.equals(getBirthDay(), personDTO.getBirthDay());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getFirstName(), getLastName(), getAddress(), getGender(), getBirthDay());
+        return Objects.hash(getId(), getFirstName(), getLastName(), getPhoneNumber(), getAddress(), getGender(), getSensitiveData(), getBirthDay());
     }
 }

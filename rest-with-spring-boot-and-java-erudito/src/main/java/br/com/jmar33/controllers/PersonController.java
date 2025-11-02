@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/person/v1")
+
 public class PersonController {
 
     @Autowired //annotation responsable for the injection dependency
@@ -30,6 +31,11 @@ public class PersonController {
     )
     public PersonDTO findById(@PathVariable("id") Long id){
         var person = service.findById(id);
+        person.setBirthDay(new Date());
+        // person.setPhoneNumber("(+55) 98765-4321");
+        person.setSensitiveData("Foo bar");
+        person.setLastName(null);
+        person.setPhoneNumber("");
         person.setBirthDay(new Date());
         return person;
     }

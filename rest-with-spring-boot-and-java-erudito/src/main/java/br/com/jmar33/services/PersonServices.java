@@ -1,5 +1,6 @@
 package br.com.jmar33.services;
 
+import br.com.jmar33.controllers.PersonController;
 import br.com.jmar33.data.dto.PersonDTO;
 import br.com.jmar33.exception.ResourceNotFoundExcecption;
 import static br.com.jmar33.mapper.ObjectMapper.parseListObjects;
@@ -10,6 +11,9 @@ import br.com.jmar33.repository.PersonRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,7 +41,9 @@ public class PersonServices {
 
         var entity = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundExcecption("No records find for this ID"));
-        return parseObject(entity, PersonDTO.class);
+        var dto =  parseObject(entity, PersonDTO.class);
+        dto.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel().withType("GET"));
+        return dto;
     }
 
     public PersonDTO create(PersonDTO person) {

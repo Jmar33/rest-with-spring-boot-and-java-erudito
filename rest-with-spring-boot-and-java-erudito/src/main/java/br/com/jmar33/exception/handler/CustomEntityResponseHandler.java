@@ -1,6 +1,7 @@
 package br.com.jmar33.exception.handler;
 
 import br.com.jmar33.exception.ExceptionResponse;
+import br.com.jmar33.exception.RequiredObjectIsNullExcecption;
 import br.com.jmar33.exception.ResourceNotFoundExcecption;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,17 @@ public class CustomEntityResponseHandler extends ResponseEntityExceptionHandler 
 
     @ExceptionHandler(ResourceNotFoundExcecption.class)
     public final ResponseEntity<ExceptionResponse> handleNotFoundExceptions(Exception ex, WebRequest request){
+        ExceptionResponse response = new ExceptionResponse(
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+        return  new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+
+    }
+
+
+    @ExceptionHandler(RequiredObjectIsNullExcecption.class)
+    public final ResponseEntity<ExceptionResponse> handleBadRequestExceptions(Exception ex, WebRequest request){
         ExceptionResponse response = new ExceptionResponse(
                 new Date(),
                 ex.getMessage(),

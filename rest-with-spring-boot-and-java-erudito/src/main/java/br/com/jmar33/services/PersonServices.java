@@ -27,8 +27,6 @@ public class PersonServices {
     @Autowired
     PersonRepository repository;
 
-    @Autowired
-
     public List<PersonDTO> findAll(){
         logger.info("Finding all People!");
         var persons =  parseListObjects(repository.findAll(), PersonDTO.class);

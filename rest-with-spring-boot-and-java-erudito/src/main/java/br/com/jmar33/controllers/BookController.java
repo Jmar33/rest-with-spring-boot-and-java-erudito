@@ -2,7 +2,7 @@ package br.com.jmar33.controllers;
 
 import br.com.jmar33.controllers.docs.BookControllerDocs;
 import br.com.jmar33.data.dto.BookDTO;
-import br.com.jmar33.services.BookServices;
+import br.com.jmar33.unitests.services.BookServices;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

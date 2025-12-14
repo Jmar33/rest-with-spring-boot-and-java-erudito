@@ -1,8 +1,11 @@
 package br.com.jmar33.config;
 
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 // This annotation says we could have beans declations so when we load the context
@@ -25,6 +28,19 @@ public class WebConfig implements WebMvcConfigurer {
     }
     */
 
+    @Value("${cors.originPatterns:default}")
+    private String corsOriginPatterns = "";
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        var allowedOringins = corsOriginPatterns.split(",");
+        registry.addMapping("/**")
+                .allowedOrigins(allowedOringins)
+                //.allowedOrigins("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+                .allowedMethods("*")
+                .allowCredentials(true);
+
+    }
 
     //HEADER PARAM
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
